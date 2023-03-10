@@ -9,3 +9,5 @@ class BasePage:
     def open(self):
         self.browser.get(self.url)
         
+    def element_is_visible(self, who, im):
+        return WD(self.browser, timeout=5).until(EC.visibility_of_element_located((who, im)))

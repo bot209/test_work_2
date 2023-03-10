@@ -9,20 +9,21 @@ def pytest_addoption(parser):
     parser.addoption('--browser_name', action='store', default=None,
                      help="Choose browser: chrome or firefox")
 
-
 @pytest.fixture(scope="function")
 def browser(request):
     browser_name = request.config.getoption("browser_name")
     browser = None
 
     if browser_name == "chrome":
-        print("\n Запускаю браузер 'chrome'")
+        print(f"\n Запускаю браузер '{browser_name}'")
         browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        browser.maximize_window()
 
     elif browser_name == "firefox":
-        print("\n Запускаю браузер 'firefox'")
+        print(f"\n Запускаю браузер '{browser_name}'")
         browser = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+        browser.maximize_window()
 
     yield browser
-    print("\n Закрываю браузер")
+    print(f"\n Закрываю браузер '{browser_name}'")
     browser.quit()
